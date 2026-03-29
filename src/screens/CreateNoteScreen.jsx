@@ -62,20 +62,7 @@ const CreateNoteScreen = ({ navigation }) => {
   const [documents, setDocuments] = useState([]);
   const [docLoading, setDocLoading] = useState(false);
   // Document Picker Handler
-  // const handlePickDocument = async () => {
-  //   try {
-  //     setDocLoading(true);
-  //     const res = await pick({
-  //       allowMultiSelection: true,
-  //     });
-  //     setDocuments(prev => [...prev, ...res]);
-  //   } catch (err) {
-  //     if (isCancel && isCancel(err)) return;
-  //     Alert.alert('Error', 'Failed to pick document');
-  //   } finally {
-  //     setDocLoading(false);
-  //   }
-  // };
+
   const handlePickDocument = async () => {
     try {
       setDocLoading(true);
