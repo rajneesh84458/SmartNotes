@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "title": "React Native State Management",
+    "content": "State management is a crucial aspect of building scalable React Native applications. Popular solutions include Context API, Redux, and Zustand. Choosing the right tool depends on your app's complexity and requirements.",
+    "category": "Programming",
+    "color": "#4F8EF7",
+    "createdAt": "2026-03-12T10:00:00Z",
+    "aiSummary": [
+      "State management is vital for scalable React Native apps.",
+      "Popular tools: Context API, Redux, Zustand.",
+      "Context API is best for simple state needs.",
+      "Redux is suited for complex, large-scale apps.",
+      "Zustand is minimal and flexible.",
+      "Choose based on your app's complexity."
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Healthy Morning Routine",
+    "content": "A healthy morning routine can boost productivity and well-being. Start with hydration, light exercise, and a nutritious breakfast. Avoid screens for the first 30 minutes.",
+    "category": "Lifestyle",
+    "color": "#34C759",
+    "createdAt": "2026-03-12T08:30:00Z",
+    "aiSummary": [
+      "Morning routines improve productivity and health.",
+      "Begin your day with hydration.",
+      "Include light exercise for energy.",
+      "Eat a nutritious breakfast.",
+      "Avoid screens for the first 30 minutes.",
+      "Consistency is key for lasting benefits."
+    ]
+  },
+  {
+    "id": "3",
+    "title": "JavaScript Array Methods",
+    "content": "JavaScript offers various array methods like map, filter, reduce, and forEach. These methods help in transforming and processing data efficiently.",
+    "category": "Programming",
+    "color": "#FFD700",
+    "createdAt": "2026-03-11T15:45:00Z",
+    "aiSummary": [
+      "JavaScript arrays have powerful built-in methods.",
+      "map() transforms each array element.",
+      "filter() selects elements based on a condition.",
+      "reduce() accumulates array values into one.",
+      "forEach() iterates over each element.",
+      "Use these methods for efficient data processing."
+    ]
+  }
+]
