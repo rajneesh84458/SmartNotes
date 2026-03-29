@@ -1,116 +1,109 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import notesData from '../notes.json';
-const useNoteStore = create((set, get) => ({
-  notes: [],
-  searchQuery: '',
 
-  // Load notes from storage
-  loadNotes: async () => {
-    try {
-      const saved = await AsyncStorage.getItem('notes');
-      if (saved) {
-        set({ notes: JSON.parse(saved) });
-      } else {
-        set({ notes: notesData });
-      }
-    } catch (error) {
-      console.log('Error loading notes:', error);
-    }
-  },
+const useNoteStore = create(
+  persist(
+    (set, get) => ({
+      notes: notesData,
+      searchQuery: '',
 
-  // Add new note
-  addNote: async note => {
-    const newNote = {
-      id: Date.now().toString(),
-      title: note.title,
-      content: note.content,
-      category: note.category || 'General',
-      color: note.color || '#6C5CE7',
-      isPinned: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      documents: Array.isArray(note.documents) ? note.documents : [],
-    };
+      // Add new note
+      addNote: note => {
+        const newNote = {
+          id: Date.now().toString(),
+          title: note.title,
+          content: note.content,
+          category: note.category || 'General',
+          color: note.color || '#6C5CE7',
+          isPinned: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          documents: note.documents || [], // ✅ important
+        };
 
-    const updatedNotes = [newNote, ...get().notes];
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+        set({ notes: [newNote, ...get().notes] });
+      },
 
-  // Add document to note
-  addDocument: async (noteId, document) => {
-    const updatedNotes = get().notes.map(note =>
-      note.id === noteId
-        ? {
-            ...note,
-            documents: [...(note.documents || []), document],
-            updatedAt: new Date().toISOString(),
-          }
-        : note,
-    );
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+      // Add document to note
+      addDocument: (noteId, document) => {
+        const docWithId = {
+          id: Date.now().toString(),
+          ...document,
+        };
 
-  // Remove document from note
-  removeDocument: async (noteId, documentId) => {
-    const updatedNotes = get().notes.map(note =>
-      note.id === noteId
-        ? {
-            ...note,
-            documents: (note.documents || []).filter(
-              doc => doc.id !== documentId,
-            ),
-            updatedAt: new Date().toISOString(),
-          }
-        : note,
-    );
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+        const updatedNotes = get().notes.map(note =>
+          note.id === noteId
+            ? {
+                ...note,
+                documents: [...(note.documents || []), docWithId],
+                updatedAt: new Date().toISOString(),
+              }
+            : note,
+        );
 
-  // Delete note
-  deleteNote: async id => {
-    const updatedNotes = get().notes.filter(note => note.id !== id);
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+        set({ notes: updatedNotes });
+      },
 
-  // Toggle pin
-  togglePin: async id => {
-    const updatedNotes = get().notes.map(note =>
-      note.id === id ? { ...note, isPinned: !note.isPinned } : note,
-    );
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+      // Remove document
+      removeDocument: (noteId, documentId) => {
+        const updatedNotes = get().notes.map(note =>
+          note.id === noteId
+            ? {
+                ...note,
+                documents: (note.documents || []).filter(
+                  doc => doc.id !== documentId,
+                ),
+                updatedAt: new Date().toISOString(),
+              }
+            : note,
+        );
 
-  // Update note
-  updateNote: async (id, updates) => {
-    const updatedNotes = get().notes.map(note =>
-      note.id === id
-        ? { ...note, ...updates, updatedAt: new Date().toISOString() }
-        : note,
-    );
-    set({ notes: updatedNotes });
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-  },
+        set({ notes: updatedNotes });
+      },
 
-  // Search
-  setSearchQuery: query => set({ searchQuery: query }),
+      // Delete note
+      deleteNote: id => {
+        set({ notes: get().notes.filter(note => note.id !== id) });
+      },
 
-  // Get filtered notes
-  getFilteredNotes: () => {
-    const { notes, searchQuery } = get();
-    const filtered = notes.filter(
-      note =>
-        note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        note.content.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-    // Pinned notes first
-    return filtered.sort((a, b) => b.isPinned - a.isPinned);
-  },
-}));
+      // Toggle pin
+      togglePin: id => {
+        const updated = get().notes.map(note =>
+          note.id === id ? { ...note, isPinned: !note.isPinned } : note,
+        );
+        set({ notes: updated });
+      },
+
+      // Update note
+      updateNote: (id, updates) => {
+        const updatedNotes = get().notes.map(note =>
+          note.id === id
+            ? { ...note, ...updates, updatedAt: new Date().toISOString() }
+            : note,
+        );
+        set({ notes: updatedNotes });
+      },
+
+      // Search
+      setSearchQuery: query => set({ searchQuery: query }),
+
+      getFilteredNotes: () => {
+        const { notes, searchQuery } = get();
+        const filtered = notes.filter(
+          note =>
+            note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            note.content.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
+        return filtered.sort((a, b) => b.isPinned - a.isPinned);
+      },
+    }),
+    {
+      name: 'notes-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+    },
+  ),
+);
 
 export default useNoteStore;

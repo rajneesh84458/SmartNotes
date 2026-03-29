@@ -15,7 +15,7 @@ import { viewDocument } from '@react-native-documents/viewer';
 import { pick, isCancel } from '@react-native-documents/picker';
 import useNoteStore from '../store/useNoteStore';
 import { getAISummary } from '../services/aiService';
-
+import RNFS from 'react-native-fs';
 const NoteDetailScreen = ({ route, navigation }) => {
   const { note } = route.params;
   console.log('note ------', note);
@@ -24,25 +24,44 @@ const NoteDetailScreen = ({ route, navigation }) => {
   const notes = useNoteStore(state => state.notes);
   const updateNote = useNoteStore(state => state.updateNote);
   const removeDocument = useNoteStore(state => state.removeDocument);
-  // Add more documents handler
+
+  const addDocument = useNoteStore(state => state.addDocument);
+  console.log('notes--------', notes, addDocument);
+
   const handleAddDocuments = async () => {
     try {
       const res = await pick({ allowMultiSelection: true });
       if (res && res.length > 0) {
-        // Prevent duplicates by uri
         const existingUris = Array.isArray(note.documents)
           ? note.documents.map(d => d.uri)
           : [];
         const filtered = res.filter(doc => !existingUris.includes(doc.uri));
-        if (filtered.length === 0) {
-          Alert.alert('Duplicate', 'All selected files are already attached.');
-          return;
+
+        const newDocs = [];
+
+        for (const doc of filtered) {
+          const destPath = `${RNFS.DocumentDirectoryPath}/${Date.now()}_${
+            doc.name
+          }`;
+          await RNFS.copyFile(doc.uri, destPath);
+
+          const newDoc = {
+            id: Date.now().toString() + Math.random(),
+            name: doc.name,
+            type: doc.type,
+            uri: destPath,
+          };
+
+          await addDocument(note.id, newDoc);
+          newDocs.push(newDoc);
         }
-        const newDocs = [...(note.documents || []), ...filtered];
-        await updateNote(note.id, { documents: newDocs });
-        const updatedNote = notes.find(n => n.id === note.id);
-        Alert.alert('Success', 'Documents added!');
-        navigation.setParams({ note: { ...updatedNote, documents: newDocs } });
+
+        navigation.setParams({
+          note: {
+            ...note,
+            documents: [...(note.documents || []), ...newDocs],
+          },
+        });
       }
     } catch (err) {
       if (isCancel && isCancel(err)) return;
@@ -50,11 +69,21 @@ const NoteDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  // Document Viewer Handler
   const handleViewDocument = async doc => {
     try {
-      await viewDocument({ uri: doc.uri, name: doc.name, type: doc.type });
+      const fileUri = doc.uri.startsWith('file://')
+        ? doc.uri
+        : `file://${doc.uri}`;
+
+      console.log('Opening:', fileUri);
+
+      await viewDocument({
+        uri: fileUri,
+        name: doc.name,
+        type: doc.type,
+      });
     } catch (err) {
+      console.log('Viewer error:', err);
       Alert.alert('Error', 'Cannot open document');
     }
   };
@@ -103,20 +132,11 @@ const NoteDetailScreen = ({ route, navigation }) => {
   };
 
   // // Delete attached document handler
-  // const handleDeleteDocument = async (uri) => {
-  //   const filteredDocs = (note.documents || []).filter(doc => doc.uri !== uri);
-  //   await updateNote(note.id, { documents: filteredDocs });
-  //   const updatedNote = notes.find(n => n.id === note.id);
-  //   navigation.setParams({ note: { ...updatedNote, documents: filteredDocs } });
-  //   Alert.alert('Deleted', 'Attachment removed.');
-  // };
+  const handleDeleteDocument = async docId => {
+    await removeDocument(note.id, docId);
 
-  // Delete attached document handler
-  const handleDeleteDocument = async docUri => {
-    await removeDocument(note.id, docUri);
-    const filteredDocs = (note.documents || []).filter(
-      doc => doc.uri !== docUri,
-    );
+    const filteredDocs = (note.documents || []).filter(doc => doc.id !== docId);
+
     navigation.setParams({ note: { ...note, documents: filteredDocs } });
     Alert.alert('Deleted', 'Attachment removed.');
   };
@@ -260,7 +280,7 @@ const NoteDetailScreen = ({ route, navigation }) => {
                       : 'FILE'}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => handleDeleteDocument(doc.uri)}
+                    onPress={() => handleDeleteDocument(doc.id)}
                     activeOpacity={0.7}
                     style={styles.deleteDocButton}
                   >

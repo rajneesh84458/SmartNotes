@@ -22,7 +22,6 @@ import { useTheme } from '../theme/ThemeContext';
 const HomeScreen = ({ navigation }) => {
   const { theme, isDark } = useTheme();
   const {
-    loadNotes,
     deleteNote,
     togglePin,
     searchQuery,
@@ -33,18 +32,18 @@ const HomeScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const scrollY = useSharedValue(0);
 
-  useEffect(() => {
-    loadNotes();
-  }, []);
+  // useEffect(() => {
+  //   loadNotes();
+  // }, []);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await loadNotes();
+    // await loadNotes();
     setRefreshing(false);
   }, []);
 
   const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
+    onScroll: event => {
       scrollY.value = event.contentOffset.y;
     },
   });
@@ -81,7 +80,8 @@ const HomeScreen = ({ navigation }) => {
   const SearchBarComponent = (
     <Animated.View
       entering={FadeIn.delay(300)}
-      style={[styles.searchContainer, { backgroundColor: theme.card }]}>
+      style={[styles.searchContainer, { backgroundColor: theme.card }]}
+    >
       <Icon name="search-outline" size={20} color={theme.textSecondary} />
       <TextInput
         style={[styles.searchInput, { color: theme.text }]}
@@ -114,12 +114,11 @@ const HomeScreen = ({ navigation }) => {
         searchBar={SearchBarComponent}
       />
 
-
       {/* ────────── Notes Grid ────────── */}
       <Animated.FlatList
         data={filteredNotes}
         renderItem={renderNote}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.listContent}
