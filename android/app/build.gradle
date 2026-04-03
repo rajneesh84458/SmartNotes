@@ -77,8 +77,11 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
-
     namespace "com.smartnotes"
+
+    manifestPlaceholders = [
+        GOOGLE_MAPS_API_KEY: System.getenv("GOOGLE_MAPS_API_KEY") ?: "YOUR_API_KEY"
+    ]
     defaultConfig {
         applicationId "com.smartnotes"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -112,6 +115,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
 }
 
 dependencies {

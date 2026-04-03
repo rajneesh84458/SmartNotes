@@ -2,6 +2,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -12,6 +13,10 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+        <!-- Google Maps API Key - Application level -->
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+      android:value="${GOOGLE_MAPS_API_KEY}" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
