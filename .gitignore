@@ -76,3 +76,7 @@ yarn-error.log
 
 # keys
 .env
+
+# Google services
+google-services.json
+GoogleService-Info.plist
