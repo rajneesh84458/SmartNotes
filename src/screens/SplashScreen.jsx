@@ -11,15 +11,13 @@ const SplashScreen = ({ navigation }) => {
     checkAuth();
   }, []);
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={styles.container}>
       <Image
-        source={require('../assets/playstore.png')}
+        source={require('../assets/appIcon.png')}
         resizeMode="contain"
-        style={styles.containerr}
+        style={styles.ImgContainer}
       />
-      <Text style={{ fontSize: 16, textAlign: 'center' }}>
-        Engage with your Notes Smartly...
-      </Text>
+      <Text style={styles.text}>Engage with your Notes Smartly...</Text>
     </View>
   );
 };
@@ -27,8 +25,23 @@ const SplashScreen = ({ navigation }) => {
 export default SplashScreen;
 
 const styles = StyleSheet.create({
-  containerr: {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  ImgContainer: {
     width: '100%',
-    height: '90%',
+    height: '60%',
+  },
+  text: {
+    position: 'absolute',
+    // top: 0,
+    bottom: 20,
+    right: 0,
+    left: 0,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

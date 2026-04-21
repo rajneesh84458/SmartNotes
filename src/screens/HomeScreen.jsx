@@ -32,13 +32,7 @@ const HomeScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const scrollY = useSharedValue(0);
 
-  // useEffect(() => {
-  //   loadNotes();
-  // }, []);
-
   const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    // await loadNotes();
     setRefreshing(false);
   }, []);
 

@@ -5,12 +5,13 @@ import HomeScreen from '../screens/HomeScreen';
 import CreateNoteScreen from '../screens/CreateNoteScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { useTheme } from '../theme/ThemeContext';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const { theme } = useTheme();
 
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -18,8 +19,8 @@ const BottomTabNavigator = () => {
         tabBarStyle: {
           backgroundColor: theme.card,
           borderTopColor: theme.border,
-          height: 60,
-          paddingBottom: 8,
+          height: 60 + insets.bottom, //  key fix
+          paddingBottom: insets.bottom,
         },
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.textSecondary,
@@ -34,7 +35,8 @@ const BottomTabNavigator = () => {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-      })}>
+      })}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Create" component={CreateNoteScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />

@@ -26,7 +26,7 @@ react {
 
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
-    // nodeExecutableAndArgs = ["node"]
+    nodeExecutableAndArgs = ["/usr/local/bin/node"]
     //
     //   The command to run when bundling. By default is 'bundle'
     // bundleCommand = "ram-bundle"
@@ -51,8 +51,6 @@ react {
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
 
-    /* Autolinking */
-    nodeExecutableAndArgs = ["/usr/local/bin/node"]
     autolinkLibrariesWithApp()
 }
 
@@ -138,7 +136,7 @@ project.ext.envConfigFiles = [
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-implementation platform('com.google.firebase:firebase-bom:34.11.0')
+    implementation platform('com.google.firebase:firebase-bom:34.11.0')
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
