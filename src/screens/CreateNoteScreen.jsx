@@ -25,12 +25,7 @@ import useNoteStore from '../store/useNoteStore';
 import { useTheme } from '../theme/ThemeContext';
 import AnimatedHeader from '../components/AnimatedHeader';
 import useVoiceToText from '../hooks/useVoiceToText';
-import {
-  pick,
-  keepLocalCopy,
-  types as docTypes,
-  isCancel,
-} from '@react-native-documents/picker';
+import { pick, isCancel } from '@react-native-documents/picker';
 import { viewDocument } from '@react-native-documents/viewer';
 
 const COLORS = [
@@ -268,7 +263,7 @@ const CreateNoteScreen = ({ navigation }) => {
         title="Create Note ✍️"
         subtitle="Write down your thoughts"
         icon="create"
-        scrollY={scrollY}
+        // scrollY={scrollY}
       />
 
       <Animated.ScrollView
@@ -539,8 +534,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 230,
-    paddingBottom: 40,
+    // paddingBottom: 40,
   },
   // ────────── Voice Error ──────────
   voiceErrorCard: {

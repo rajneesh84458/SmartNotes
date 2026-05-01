@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   TextInput,
   RefreshControl,
   StatusBar,
-  TouchableOpacity,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 100,
-    paddingTop: 230, // Increased to account for header + search bar
+    // paddingTop: 230, // Increased to account for header + search bar
   },
   searchContainer: {
     flexDirection: 'row',

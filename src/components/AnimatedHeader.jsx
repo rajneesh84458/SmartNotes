@@ -1,166 +1,84 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  interpolate,
-  Extrapolation,
-} from 'react-native-reanimated';
-
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const HEADER_MAX_HEIGHT = 180;
-const HEADER_MIN_HEIGHT = 110;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-
-const AnimatedHeader = ({ title, subtitle, scrollY, searchBar }) => {
+const AnimatedHeader = ({
+  title,
+  subtitle,
+  searchBar,
+  showBackIcon = false,
+}) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
-
-  /* ───────── HEADER HEIGHT ───────── */
-  const headerAnimatedStyle = useAnimatedStyle(() => {
-    const height = interpolate(
-      scrollY.value,
-      [0, HEADER_SCROLL_DISTANCE],
-      [HEADER_MAX_HEIGHT + insets.top, HEADER_MIN_HEIGHT + insets.top],
-      Extrapolation.CLAMP,
-    );
-
-    return { height };
-  });
-
-  /* ───────── CONTENT MOVE ───────── */
-  const contentAnimatedStyle = useAnimatedStyle(() => {
-    const translateY = interpolate(
-      scrollY.value,
-      [0, HEADER_SCROLL_DISTANCE],
-      [30, 0],
-      Extrapolation.CLAMP,
-    );
-
-    return {
-      transform: [{ translateY }],
-    };
-  });
-
-  /* ───────── TITLE SCALE ───────── */
-  const titleAnimatedStyle = useAnimatedStyle(() => {
-    const scale = interpolate(
-      scrollY.value,
-      [0, HEADER_SCROLL_DISTANCE],
-      [1.2, 1],
-      Extrapolation.CLAMP,
-    );
-
-    return {
-      transform: [{ scale }],
-    };
-  });
-
-  /* ───────── SUBTITLE FADE ───────── */
-  const subtitleAnimatedStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      scrollY.value,
-      [0, HEADER_SCROLL_DISTANCE * 0.4],
-      [1, 0],
-      Extrapolation.CLAMP,
-    );
-
-    return { opacity };
-  });
-
-  /* ───────── SEARCH BAR ANIMATION ───────── */
-  const searchBarAnimatedStyle = useAnimatedStyle(() => {
-    const translateY = interpolate(
-      scrollY.value,
-      [0, HEADER_SCROLL_DISTANCE],
-      [0, -20],
-      Extrapolation.CLAMP,
-    );
-
-    return {
-      transform: [{ translateY }],
-    };
-  });
+  const navigation = useNavigation();
 
   return (
-    <Animated.View
+    <View
       style={[
         styles.header,
-        headerAnimatedStyle,
-        { backgroundColor: theme.background },
+        {
+          backgroundColor: theme.background,
+          paddingTop: insets.top,
+        },
       ]}
     >
-      {/* SAFE AREA */}
-      <View style={{ height: insets.top }} />
+      {/* BACK ICON */}
 
-      {/* CONTENT */}
-      <Animated.View style={[styles.content, contentAnimatedStyle]}>
-        <Animated.Text
-          style={[styles.title, titleAnimatedStyle, { color: theme.text }]}
-        >
-          {title}
-        </Animated.Text>
-
-        <Animated.Text
-          style={[
-            styles.subtitle,
-            subtitleAnimatedStyle,
-            { color: theme.textSecondary },
-          ]}
-        >
-          {subtitle}
-        </Animated.Text>
-      </Animated.View>
+      <View style={styles.headerContent}>
+        <View style={styles.backButton}>
+          {showBackIcon && (
+            <Pressable onPress={() => navigation.goBack()}>
+              <Icon name="chevron-back" size={24} color={theme.text} />
+            </Pressable>
+          )}
+          <View>
+            <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+            {subtitle && (
+              <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
+                {subtitle}
+              </Text>
+            )}
+          </View>
+        </View>
+      </View>
 
       {/* SEARCH BAR */}
-      {searchBar && (
-        <Animated.View
-          style={[styles.searchBarWrapper, searchBarAnimatedStyle]}
-        >
-          {searchBar}
-        </Animated.View>
-      )}
-    </Animated.View>
+      {searchBar && <View style={styles.searchBarContainer}>{searchBar}</View>}
+    </View>
   );
 };
 
-export default AnimatedHeader;
-
-/* ================= STYLES ================= */
-
 const styles = StyleSheet.create({
   header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 100,
-    overflow: 'hidden',
+    paddingHorizontal: 16,
+    // paddingVertical: 12,
   },
-
-  content: {
-    flex: 1,
-    // justifyContent: 'center',
-    paddingHorizontal: 20,
+  headerContent: {
+    marginVertical: 8,
   },
-
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
   title: {
-    fontSize: 20,
-    fontWeight: '800',
-    marginLeft: 28,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 4,
   },
-
   subtitle: {
     fontSize: 14,
-    marginTop: 6,
+  },
+  content: {
+    marginVertical: 8,
   },
 
-  searchBarWrapper: {
-    position: 'absolute',
-    bottom: 10,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 16,
+  searchBarContainer: {
+    marginVertical: 12,
   },
 });
+
+export default AnimatedHeader;

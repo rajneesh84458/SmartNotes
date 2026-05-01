@@ -18,6 +18,7 @@ import { pick, isCancel } from '@react-native-documents/picker';
 import useNoteStore from '../store/useNoteStore';
 import { getAISummary } from '../services/aiService';
 import RNFS from 'react-native-fs';
+import AnimatedHeader from '../components/AnimatedHeader';
 
 const NoteDetailScreen = ({ route, navigation }) => {
   const { theme } = useTheme();
@@ -28,7 +29,7 @@ const NoteDetailScreen = ({ route, navigation }) => {
 
   const actionSheetRef = useRef(null);
 
-  const [noteState, setNoteState] = useState(route.params.note); // ✅ LOCAL STATE FIX
+  const [noteState, setNoteState] = useState(route.params.note); //  LOCAL STATE FIX
 
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [summaryMap, setSummaryMap] = useState({});
@@ -145,28 +146,6 @@ const NoteDetailScreen = ({ route, navigation }) => {
   };
 
   /* ---------------- AI SUMMARY ---------------- */
-  // const handleSummary = async () => {
-  //   actionSheetRef.current?.hide();
-  //   setLoadingSummary(true);
-
-  //   const result = await getAISummary(selectedDoc.uri);
-
-  //   let words = result.split(' ');
-  //   let temp = '';
-
-  //   for (let i = 0; i < words.length; i++) {
-  //     temp += words[i] + ' ';
-
-  //     setSummaryMap(prev => ({
-  //       ...prev,
-  //       [selectedDoc.id]: temp,
-  //     }));
-
-  //     await new Promise(r => setTimeout(r, 15));
-  //   }
-
-  //   setLoadingSummary(false);
-  // };
 
   const handleSummary = async () => {
     actionSheetRef.current?.hide();
@@ -174,8 +153,8 @@ const NoteDetailScreen = ({ route, navigation }) => {
 
     const result = await getAISummary(selectedDoc.uri);
 
-    setCurrentSummary(result); // ✅ store summary
-    setSummaryModalVisible(true); // ✅ open modal
+    setCurrentSummary(result); //  store summary
+    setSummaryModalVisible(true); //  open modal
 
     setLoadingSummary(false);
   };
@@ -208,6 +187,7 @@ const NoteDetailScreen = ({ route, navigation }) => {
 
   return (
     <>
+      <AnimatedHeader title="Note" showBackIcon={true} />
       <ScrollView
         style={[styles.container, { backgroundColor: theme.background }]}
       >
