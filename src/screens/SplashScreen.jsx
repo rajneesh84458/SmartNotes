@@ -27,12 +27,12 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
   },
   ImgContainer: {
     width: '100%',
-    height: '60%',
+    height: '50%',
   },
   text: {
     position: 'absolute',

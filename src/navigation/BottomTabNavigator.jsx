@@ -7,11 +7,11 @@ import SettingsScreen from '../screens/SettingsScreen';
 import { useTheme } from '../theme/ThemeContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const Tab = createBottomTabNavigator();
-
+const TAB_BAR_HEIGHT = 20;
 const BottomTabNavigator = () => {
+  const insets = useSafeAreaInsets();
   const { theme } = useTheme();
 
-  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -19,13 +19,13 @@ const BottomTabNavigator = () => {
         tabBarStyle: {
           backgroundColor: theme.card,
           borderTopColor: theme.border,
-          height: 60 + insets.bottom, //  key fix
-          paddingBottom: insets.bottom,
+          height: insets.bottom + TAB_BAR_HEIGHT,
         },
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.textSecondary,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Create') {
@@ -33,6 +33,7 @@ const BottomTabNavigator = () => {
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
           }
+
           return <Icon name={iconName} size={size} color={color} />;
         },
       })}

@@ -1,29 +1,32 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BottomTabNavigator from './BottomTabNavigator';
 import NoteDetailScreen from '../screens/NoteDetailScreen';
 import AuthScreen from '../screens/AuthScreen';
 import { useTheme } from '../theme/ThemeContext';
 import VoiceTestScreen from '../screens/VoiceTestScreen';
 import SplashScreen from '../screens/SplashScreen';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import PdfViewerScreen from '../screens/PdfViewerScreen';
 import { StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import NetworkBanner from '../components/NetworkBanner';
+import { useNetwork } from '../context/NetworkContext';
+import BottomTabNavigator from './BottomTabNavigator';
+
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   const { theme } = useTheme();
-
+  const { isConnected } = useNetwork();
   return (
     <>
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content" // ya "dark-content" depending on UI
+        barStyle="light-content"
       />
-      <NavigationContainer>
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+        <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
               headerStyle: { backgroundColor: theme.background },
@@ -51,6 +54,7 @@ const AppNavigator = () => {
               component={BottomTabNavigator}
               options={{ headerShown: false }}
             />
+
             <Stack.Screen
               name="NoteDetail"
               component={NoteDetailScreen}
@@ -59,12 +63,12 @@ const AppNavigator = () => {
             <Stack.Screen
               name="PdfViewer"
               component={PdfViewerScreen}
-              // options={{ title: 'Document Viewer' }}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
-        </SafeAreaView>
-      </NavigationContainer>
+        </NavigationContainer>
+        <NetworkBanner isConnected={isConnected} />
+      </SafeAreaView>
     </>
   );
 };
