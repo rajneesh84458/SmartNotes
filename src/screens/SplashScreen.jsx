@@ -1,7 +1,9 @@
 import { Image, View, StyleSheet, Text } from 'react-native';
 import React, { useEffect } from 'react';
+import { useTheme } from '../theme/ThemeContext';
 
 const SplashScreen = ({ navigation }) => {
+  const { theme } = useTheme();
   useEffect(() => {
     const checkAuth = async () => {
       setTimeout(() => {
@@ -11,13 +13,15 @@ const SplashScreen = ({ navigation }) => {
     checkAuth();
   }, []);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Image
         source={require('../assets/appIcon.png')}
         resizeMode="contain"
         style={styles.ImgContainer}
       />
-      <Text style={styles.text}>Engage with your Notes Smartly...</Text>
+      <Text style={[styles.text, { color: theme.text }]}>
+        Engage with your Notes Smartly...
+      </Text>
     </View>
   );
 };
@@ -27,7 +31,6 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
   },
   ImgContainer: {

@@ -1,6 +1,13 @@
 import React from 'react';
-import { View, Text, Switch, StyleSheet, TouchableOpacity } from 'react-native';
-import Animated, { FadeInDown, useSharedValue } from 'react-native-reanimated';
+import {
+  View,
+  Text,
+  Switch,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useTheme } from '../theme/ThemeContext';
@@ -15,7 +22,6 @@ const hapticOptions = {
 const SettingsScreen = () => {
   const { theme, isDark, toggleTheme } = useTheme();
   const notes = useNoteStore(state => state.notes);
-  const scrollY = useSharedValue(0);
 
   const handleToggleTheme = () => {
     ReactNativeHapticFeedback.trigger('impactMedium', hapticOptions);
@@ -56,63 +62,64 @@ const SettingsScreen = () => {
         icon="settings"
         // scrollY={scrollY}
       />
-
-      <View style={styles.content}>
-        {settingsItems.map((item, index) => (
-          <Animated.View
-            key={index}
-            entering={FadeInDown.delay(index * 100).springify()}
-          >
-            <TouchableOpacity
-              style={[styles.settingItem, { backgroundColor: theme.card }]}
-              onPress={() => {
-                if (item.action) {
-                  item.action();
-                } else {
-                  ReactNativeHapticFeedback.trigger(
-                    'impactLight',
-                    hapticOptions,
-                  );
-                }
-              }}
-              activeOpacity={item.action ? 0.7 : 1}
+      <ScrollView>
+        <View style={styles.content}>
+          {settingsItems.map((item, index) => (
+            <Animated.View
+              key={index}
+              entering={FadeInDown.delay(index * 100).springify()}
             >
-              <View style={styles.settingLeft}>
-                <View
-                  style={[
-                    styles.iconContainer,
-                    { backgroundColor: theme.primary + '20' },
-                  ]}
-                >
-                  <Icon name={item.icon} size={22} color={theme.primary} />
-                </View>
-                <View>
-                  <Text style={[styles.settingTitle, { color: theme.text }]}>
-                    {item.title}
-                  </Text>
-                  <Text
+              <TouchableOpacity
+                style={[styles.settingItem, { backgroundColor: theme.card }]}
+                onPress={() => {
+                  if (item.action) {
+                    item.action();
+                  } else {
+                    ReactNativeHapticFeedback.trigger(
+                      'impactLight',
+                      hapticOptions,
+                    );
+                  }
+                }}
+                activeOpacity={item.action ? 0.7 : 1}
+              >
+                <View style={styles.settingLeft}>
+                  <View
                     style={[
-                      styles.settingSubtitle,
-                      { color: theme.textSecondary },
+                      styles.iconContainer,
+                      { backgroundColor: theme.primary + '20' },
                     ]}
                   >
-                    {item.subtitle}
-                  </Text>
+                    <Icon name={item.icon} size={22} color={theme.primary} />
+                  </View>
+                  <View>
+                    <Text style={[styles.settingTitle, { color: theme.text }]}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.settingSubtitle,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      {item.subtitle}
+                    </Text>
+                  </View>
                 </View>
-              </View>
 
-              {item.isSwitch && (
-                <Switch
-                  value={isDark}
-                  onValueChange={handleToggleTheme}
-                  trackColor={{ false: '#ccc', true: theme.primary }}
-                  thumbColor="#FFF"
-                />
-              )}
-            </TouchableOpacity>
-          </Animated.View>
-        ))}
-      </View>
+                {item.isSwitch && (
+                  <Switch
+                    value={isDark}
+                    onValueChange={handleToggleTheme}
+                    trackColor={{ false: '#ccc', true: theme.primary }}
+                    thumbColor="#FFF"
+                  />
+                )}
+              </TouchableOpacity>
+            </Animated.View>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -123,6 +130,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 20,
+    marginTop: '15%',
   },
   settingItem: {
     flexDirection: 'row',

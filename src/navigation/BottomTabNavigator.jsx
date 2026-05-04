@@ -7,7 +7,6 @@ import SettingsScreen from '../screens/SettingsScreen';
 import { useTheme } from '../theme/ThemeContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const Tab = createBottomTabNavigator();
-const TAB_BAR_HEIGHT = 20;
 const BottomTabNavigator = () => {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
@@ -19,7 +18,11 @@ const BottomTabNavigator = () => {
         tabBarStyle: {
           backgroundColor: theme.card,
           borderTopColor: theme.border,
-          height: insets.bottom + TAB_BAR_HEIGHT,
+          borderTopWidth: 1,
+          height: 56 + insets.bottom,
+          paddingBottom: insets.bottom,
+          paddingTop: 4,
+          elevation: 8,
         },
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.textSecondary,

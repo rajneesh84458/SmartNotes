@@ -25,50 +25,48 @@ const AppNavigator = () => {
         backgroundColor="transparent"
         barStyle="light-content"
       />
-      <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: theme.background },
-              headerTintColor: theme.text,
-              headerShadowVisible: false,
-            }}
-          >
-            <Stack.Screen
-              name="Splash"
-              component={SplashScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Auth"
-              component={AuthScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="VoiceTest"
-              component={VoiceTestScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Main"
-              component={BottomTabNavigator}
-              options={{ headerShown: false }}
-            />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: theme.background },
+            headerTintColor: theme.text,
+            headerShadowVisible: false,
+          }}
+        >
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="VoiceTest"
+            component={VoiceTestScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Main"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
 
-            <Stack.Screen
-              name="NoteDetail"
-              component={NoteDetailScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="PdfViewer"
-              component={PdfViewerScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <NetworkBanner isConnected={isConnected} />
-      </SafeAreaView>
+          <Stack.Screen
+            name="NoteDetail"
+            component={NoteDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PdfViewer"
+            component={PdfViewerScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <NetworkBanner isConnected={isConnected} />
     </>
   );
 };

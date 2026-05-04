@@ -76,7 +76,7 @@ const CreateNoteScreen = ({ navigation }) => {
       setDocuments(prev => [...prev, ...tempDocs]);
     } catch (err) {
       if (isCancel && isCancel(err)) return;
-      Alert.alert('Error', 'Failed to pick document');
+      Alert.alert('Alert', 'Failed to pick document');
     } finally {
       setDocLoading(false);
     }
@@ -88,7 +88,7 @@ const CreateNoteScreen = ({ navigation }) => {
       // viewDocument expects an object, not just a URI string
       await viewDocument({ uri: doc.uri, name: doc.name, type: doc.type });
     } catch (err) {
-      Alert.alert('Error', 'Cannot open document');
+      Alert.alert('Alert', 'Cannot open document');
     }
   };
 
@@ -169,13 +169,13 @@ const CreateNoteScreen = ({ navigation }) => {
 
     if (!title.trim()) {
       ReactNativeHapticFeedback.trigger('notificationError', hapticOptions);
-      Alert.alert('Error', 'Please enter a title');
+      Alert.alert('Alert', 'Please enter a title');
       return;
     }
 
     if (!content.trim()) {
       ReactNativeHapticFeedback.trigger('notificationError', hapticOptions);
-      Alert.alert('Error', 'Please enter some content');
+      Alert.alert('Alert', 'Please enter some content');
       return;
     }
 
@@ -204,7 +204,7 @@ const CreateNoteScreen = ({ navigation }) => {
         content: content.trim(),
         color: selectedColor,
         category: selectedCategory,
-        documents: savedDocs, // ✅ only permanent URIs stored
+        documents: savedDocs,
       });
 
       ReactNativeHapticFeedback.trigger('notificationSuccess', hapticOptions);
@@ -216,7 +216,7 @@ const CreateNoteScreen = ({ navigation }) => {
       navigation.goBack(); // go to Home as you want
     } catch (err) {
       console.log('Save error:', err);
-      Alert.alert('Error', 'Failed to save note');
+      Alert.alert('Alert', 'Failed to save note');
     }
   };
   // ────────── Voice Button Component ──────────

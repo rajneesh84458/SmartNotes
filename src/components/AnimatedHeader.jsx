@@ -12,6 +12,7 @@ const AnimatedHeader = ({
   showBackIcon = false,
 }) => {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   return (
@@ -20,6 +21,7 @@ const AnimatedHeader = ({
         styles.header,
         {
           backgroundColor: theme.background,
+          paddingTop: insets.top + 12,
         },
       ]}
     >
