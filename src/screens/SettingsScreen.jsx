@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useTheme } from '../theme/ThemeContext';
 import useNoteStore from '../store/useNoteStore';
 import AnimatedHeader from '../components/AnimatedHeader';
+import DeviceInfo from 'react-native-device-info';
 
 const hapticOptions = {
   enableVibrateFallback: true,
@@ -21,6 +22,7 @@ const hapticOptions = {
 
 const SettingsScreen = () => {
   const { theme, isDark, toggleTheme } = useTheme();
+  const appVersion = DeviceInfo.getVersion();
   const notes = useNoteStore(state => state.notes);
 
   const handleToggleTheme = () => {
@@ -49,7 +51,7 @@ const SettingsScreen = () => {
     {
       icon: 'information-circle',
       title: 'App Version',
-      subtitle: '1.0.0',
+      subtitle: appVersion || '1.0.0',
     },
   ];
 

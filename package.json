@@ -33,6 +33,7 @@
     "react-native-blob-util": "^0.24.7",
     "react-native-bootsplash": "^7.1.0",
     "react-native-config": "^1.6.1",
+    "react-native-device-info": "^15.0.2",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.31.1",
     "react-native-haptic-feedback": "^2.3.4",

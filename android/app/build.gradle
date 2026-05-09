@@ -79,7 +79,7 @@ productFlavors {
     dev {
         dimension "env"
         applicationIdSuffix ".dev"
-        versionNameSuffix "-dev"
+        versionNameSuffix ""
         resValue "string", "app_name", "SmartNotes Dev"
     }
     prod {
