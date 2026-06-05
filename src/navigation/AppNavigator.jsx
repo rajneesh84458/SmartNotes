@@ -8,7 +8,7 @@ import VoiceTestScreen from '../screens/VoiceTestScreen';
 import SplashScreen from '../screens/SplashScreen';
 import PdfViewerScreen from '../screens/PdfViewerScreen';
 import { StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import AIAssistantScreen from '../screens/AIAssistant';
 import NetworkBanner from '../components/NetworkBanner';
 import { useNetwork } from '../context/NetworkContext';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -57,12 +57,32 @@ const AppNavigator = () => {
           <Stack.Screen
             name="NoteDetail"
             component={NoteDetailScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: true,
+              title: 'Note',
+              headerBackTitleVisible: false,
+              headerStyle: { backgroundColor: theme.background, fontSize: 14 },
+            }}
           />
           <Stack.Screen
             name="PdfViewer"
             component={PdfViewerScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: true,
+              title: 'View File',
+              headerBackTitleVisible: false,
+              headerStyle: { backgroundColor: theme.background, fontSize: 14 },
+            }}
+          />
+          <Stack.Screen
+            name="AIAssistant"
+            component={AIAssistantScreen}
+            options={{
+              headerShown: false,
+              title: 'Your AI Assistant',
+              headerTitleStyle: { fontSize: 16 },
+              headerStyle: { backgroundColor: theme.background, fontSize: 12 },
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

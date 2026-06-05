@@ -446,7 +446,7 @@ const CreateNoteScreen = ({ navigation }) => {
         {documents.length > 0 && (
           <Animated.View
             entering={FadeInDown.delay(360).springify()}
-            style={styles.documentList}
+            style={[styles.documentList, { backgroundColor: theme.card }]}
           >
             <Text
               style={[styles.label, { color: theme.text, marginBottom: 6 }]}
@@ -512,7 +512,6 @@ const styles = StyleSheet.create({
   },
   documentList: {
     marginBottom: 16,
-    backgroundColor: '#F5F6FA',
     borderRadius: 10,
     padding: 8,
     shadowColor: '#6C5CE7',

@@ -6,11 +6,11 @@ import CreateNoteScreen from '../screens/CreateNoteScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { useTheme } from '../theme/ThemeContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

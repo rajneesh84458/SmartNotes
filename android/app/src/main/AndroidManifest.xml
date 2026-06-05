@@ -12,6 +12,10 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+         <!-- AppsAirPush Configuration -->
+      <meta-data
+        android:name="com.smartnotes.APPID"
+         android:value="@string/appsairpush_app_id" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

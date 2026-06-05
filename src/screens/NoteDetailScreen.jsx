@@ -187,7 +187,7 @@ const NoteDetailScreen = ({ route, navigation }) => {
 
   return (
     <>
-      <AnimatedHeader title="Note" showBackIcon={true} />
+      {/* <AnimatedHeader title="Note" showBackIcon={true} /> */}
       <ScrollView
         style={[styles.container, { backgroundColor: theme.background }]}
       >

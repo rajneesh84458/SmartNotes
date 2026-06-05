@@ -6,6 +6,7 @@ import {
   TextInput,
   RefreshControl,
   StatusBar,
+  Pressable,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -123,6 +124,14 @@ const HomeScreen = ({ navigation }) => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      {/* Floating AI Button */}
+      <Pressable
+        style={[styles.fabButton, { backgroundColor: theme.primary }]}
+        onPress={() => navigation.navigate('AIAssistant')}
+        activeOpacity={0.8}
+      >
+        <Icon name="chatbubble" size={24} color="#fff" />
+      </Pressable>
     </View>
   );
 };
@@ -166,6 +175,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
     paddingHorizontal: 40,
+  },
+  fabButton: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
 });
 

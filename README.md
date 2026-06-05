@@ -19,5 +19,10 @@ cd ios && pod install && cd ..
 ⚙️ Environment Configuration
 .env
 
-APPS_AIRPUSH_APP_ID=your_app_id
-APPS_AIRPUSH_LICENSE_KEY=your_license_key
+# Setup Instructions
+
+1. Copy the example file:
+
+```sh
+cp android/app/src/main/res/values/strings.xml.example android/app/src/main/res/values/strings.xml
+```
