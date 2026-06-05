@@ -1,0 +1,26 @@
+{
+  "name": "ai-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/multipart": "^10.0.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "jsonwebtoken": "^9.0.3",
+    "node-fetch": "^3.3.2",
+    "pdf2json": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/event-source-polyfill": "^1.0.5"
+  }
+}

@@ -38,6 +38,7 @@ local.properties
 # node.js
 #
 node_modules/
+ai-backend/node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -84,3 +85,7 @@ google-services.json
 GoogleService-Info.plist
 .env.prod
 .env*
+
+ai-backend/.env
+ai-backend/.env.local
+ai-backend/.env.*.local
