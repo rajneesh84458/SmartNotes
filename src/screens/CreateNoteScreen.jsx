@@ -27,17 +27,8 @@ import AnimatedHeader from '../components/AnimatedHeader';
 import useVoiceToText from '../hooks/useVoiceToText';
 import { pick, isCancel } from '@react-native-documents/picker';
 import { viewDocument } from '@react-native-documents/viewer';
-
-const COLORS = [
-  '#6C5CE7',
-  '#00CECE',
-  '#FF6B6B',
-  '#FDCB6E',
-  '#00B894',
-  '#E17055',
-];
-const CATEGORIES = ['General', 'Work', 'Personal', 'Ideas', 'Todo', 'Learning'];
-
+import { COLORS, CATEGORIES } from '../utils/constants';
+import ColorPicker from '../components/ColorPicker';
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const hapticOptions = {
@@ -56,6 +47,15 @@ const CreateNoteScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
   const [documents, setDocuments] = useState([]);
   const [docLoading, setDocLoading] = useState(false);
+  const [activeVoiceField, setActiveVoiceField] = useState(null); // 'title' | 'content' | null
+  const {
+    isListening,
+    partialText,
+    error: voiceError,
+    startListening,
+    stopListening,
+    isAvailable: voiceAvailable,
+  } = useVoiceToText();
   // Document Picker Handler
 
   const handlePickDocument = async () => {
@@ -91,18 +91,6 @@ const CreateNoteScreen = ({ navigation }) => {
       Alert.alert('Alert', 'Cannot open document');
     }
   };
-
-  // Track which field is being voice-filled
-  const [activeVoiceField, setActiveVoiceField] = useState(null); // 'title' | 'content' | null
-
-  const {
-    isListening,
-    partialText,
-    error: voiceError,
-    startListening,
-    stopListening,
-    isAvailable: voiceAvailable,
-  } = useVoiceToText();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
@@ -263,7 +251,6 @@ const CreateNoteScreen = ({ navigation }) => {
         title="Create Note ✍️"
         subtitle="Write down your thoughts"
         icon="create"
-        // scrollY={scrollY}
       />
 
       <Animated.ScrollView
@@ -384,6 +371,10 @@ const CreateNoteScreen = ({ navigation }) => {
             ))}
           </View>
         </Animated.View>
+        {/* <ColorPicker
+          selectedColor={selectedColor}
+          handleColorSelect={handleColorSelect}
+        /> */}
 
         {/* Category Picker */}
         <Animated.View entering={FadeInDown.delay(500).springify()}>

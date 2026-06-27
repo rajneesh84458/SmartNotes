@@ -20,11 +20,6 @@ const AppNavigator = () => {
   const { isConnected } = useNetwork();
   return (
     <>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="light-content"
-      />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{

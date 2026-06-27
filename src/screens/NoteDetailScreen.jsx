@@ -18,7 +18,6 @@ import { pick, isCancel } from '@react-native-documents/picker';
 import useNoteStore from '../store/useNoteStore';
 import { getAISummary } from '../services/aiService';
 import RNFS from 'react-native-fs';
-import AnimatedHeader from '../components/AnimatedHeader';
 
 const NoteDetailScreen = ({ route, navigation }) => {
   const { theme } = useTheme();

@@ -4,6 +4,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { NetworkProvider } from './src/context/NetworkContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import CodePush from '@code-push-next/react-native-code-push';
+import { StatusBar } from 'react-native';
 
 const App = () => {
   useEffect(() => {
@@ -15,6 +16,11 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
+        {/* <StatusBar
+          translucent
+          backgroundColor="transparent"
+          barStyle="light-content"
+        /> */}
         <NetworkProvider>
           <AppNavigator />
         </NetworkProvider>
